@@ -1,6 +1,6 @@
 const {Sequelize}=require('sequelize');
  
-    const db = new Sequelize('nombrebase','root','contrasenia del gestor',{
+    const db = new Sequelize('proyecto','root','1234',{
         host: 'localhost',
         port:'3306',
         dialect:'mysql',
