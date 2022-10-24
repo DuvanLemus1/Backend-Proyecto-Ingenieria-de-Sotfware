@@ -32,6 +32,7 @@ class Server {
 
     route() {
         this.app.use('/personas', require('../routers/personaRouter'));
+        this.app.use('/login', require('../routers/loginRouter'));
     }
 
     listen() {
