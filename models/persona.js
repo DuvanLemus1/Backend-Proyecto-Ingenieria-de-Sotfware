@@ -25,10 +25,16 @@ const Persona = db.define('persona', {
     municipio: {
         type: DataTypes.STRING
     },
+    rol:{
+        type: DataTypes.STRING
+    },
     estado: {
         type: DataTypes.BOOLEAN
     },
     contrasenia: {
+        type: DataTypes.STRING
+    },
+    token: {
         type: DataTypes.STRING
     },
 }, {
