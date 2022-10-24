@@ -1,0 +1,32 @@
+{
+  "name": "backend-proyecto-ingenieria-de-sotfware",
+  "version": "1.0.0",
+  "description": "Repositorio Backend",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "nodemon app"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/DuvanLemus1/Backend-Proyecto-Ingenieria-de-Sotfware.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/DuvanLemus1/Backend-Proyecto-Ingenieria-de-Sotfware/issues"
+  },
+  "homepage": "https://github.com/DuvanLemus1/Backend-Proyecto-Ingenieria-de-Sotfware#readme",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.0.3",
+    "express": "^4.18.2",
+    "mysql": "^2.18.1",
+    "mysql2": "^2.3.3",
+    "sequelize": "^6.25.3"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.20"
+  }
+}
