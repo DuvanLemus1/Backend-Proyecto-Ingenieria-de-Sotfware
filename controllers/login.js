@@ -1,6 +1,10 @@
 const {Persona}=require('../models/persona');
 const bcryptjs = require('bcryptjs');
 const { generarJWT } = require('../helpers/generar-jws');
+const{generarId}=require('../helpers/generarid');
+const { emailOlvidePassword } = require('../helpers/emailOlvidePassword');
+const {encriptarContra}=require('../helpers/encriptarContrasenia');
+
 const confirmarCuenta = async (req, res) => {
 
     const { token } = req.params
@@ -65,4 +69,79 @@ const autenticar = async (req, res) => {
 
 }
 
-module.exports ={confirmarCuenta,autenticar}
+const olvidePassword = async (req, res) => {
+    const { correoElectronico } = req.body;
+
+    const existePersona = await Persona.findOne({
+        where: {
+            correoElectronico:req.body.correoElectronico
+        }}
+    );
+
+    if (!existePersona) {
+        return res.status(400).json({
+            msg: 'Usuario no existe'
+        })
+    }
+
+    try {
+        existePersona.token = generarId();
+        await existePersona.update();
+        emailOlvidePassword({
+            correoElectronico,
+            nombreCompleto: existePersona.nombreCompleto,
+            token: existePersona.token
+        })
+        res.json({ msg: 'Hemos enviado un email con las instrucciones' })
+    } catch (error) {
+        console.log(error);
+        res.status(400).json({
+            msg: 'Algo a fallado comuniquese con su proveedor'
+        });
+    }
+}
+
+const comprobarPassword = async (req, res) => {
+    const { token } = req.params;
+
+    const tokenValido =await Persona.findOne({where: {token: token}})
+
+    if (tokenValido) {
+        res.json({ msg: 'Token valido y el usuario existe' })
+    } else {
+        return res.status(400).json({
+            msg: 'El token no es valido'
+        })
+    }
+}
+
+const nuevoPassword = async (req, res) => {
+
+    const { token } = req.params;
+    const { contrasenia } = req.body;
+
+    const persona = await Persona.findOne({where: {token: token}})
+
+    if (!persona) {
+        return res.status(400).json({
+            msg: 'Hubo un error'
+        });
+    }
+
+    try {
+        persona.token = null;
+        persona.contrasenia = encriptarContra(contrasenia);
+        console.log(persona);
+        await persona.save();
+        res.json({
+            msg: 'Password modificado correctamente'
+        })
+    } catch (error) {
+        console.log(error);
+        return res.status(400).json({
+            msg: 'Hubo un error  al cambiar el password'
+        });
+    }
+
+}
+module.exports ={confirmarCuenta,autenticar,olvidePassword,comprobarPassword,nuevoPassword}

@@ -52,7 +52,34 @@ const postPersona = async (req, res) => {
 
 
 
-
+    const actualizarPassword = async (req, res) => {
+        // Leer los datos
+       const { _id } = req.body.auth;
+       const { pwd_actual, pwd_nuevo } = req.body.datos;
+      
+       // Comprobar que el veterinario existe
+       const veterinario = await Veterinario.findById(_id);
+       if (!veterinario) {
+         const error = new Error("Hubo un error");
+         return res.status(400).json({ msg: error.message });
+       }
+     
+       // Comprobar su password
+       const comprobarPassword = await bcryptjs.compare(pwd_actual, veterinario.password);
+   
+   
+       if (comprobarPassword) {
+         // Almacenar el nuevo password
+         const salt = bcryptjs.genSaltSync();
+         veterinario.password = bcryptjs.hashSync(pwd_nuevo, salt);
+         await veterinario.save();
+         res.json({ msg: "Password Almacenado Correctamente" });
+       } else {
+         const error = new Error("El Password Actual es Incorrecto");
+         return res.status(400).json({ msg: error.message });
+       } 
+     };
+   
 
 
 }
