@@ -86,7 +86,7 @@ const olvidePassword = async (req, res) => {
 
     try {
         existePersona.token = generarId();
-        await existePersona.update();
+        await existePersona.save();
         emailOlvidePassword({
             correoElectronico,
             nombreCompleto: existePersona.nombreCompleto,
