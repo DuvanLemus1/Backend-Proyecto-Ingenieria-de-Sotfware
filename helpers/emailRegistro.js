@@ -20,7 +20,7 @@ const emailRegistro=async(datos)=>{
         text:"Comprueba tu cuenta en ECM",
         html:`<p>Hola:${nombreCompleto},comprueba tu cuenta en ECM</p>
         <p>Tu cuenta ya esta lista,solo debes comprobarla en el siguiente enlace
-        <a href="${process.env.FRONTEND_URL}/confirmar/${token}" >Comprobar tu cuenta</a></p>
+        <a href="${process.env.FRONTEND_URL}confirmar/${token}" >Comprobar tu cuenta</a></p>
 
         <p>Si tu no creaste esta cuenta,puedes ignorar este mensaje</p>
         `

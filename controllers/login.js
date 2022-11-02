@@ -74,7 +74,7 @@ const olvidePassword = async (req, res) => {
 
     const existePersona = await Persona.findOne({
         where: {
-            correoElectronico:req.body.correoElectronico
+            correoElectronico
         }}
     );
 
