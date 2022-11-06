@@ -55,9 +55,9 @@ const autenticar = async (req, res) => {
     //comprobar password
     const comprobarPassword = await bcryptjs.compare(contrasenia, existePersona.contrasenia);
     if (comprobarPassword) {
-        const token = await generarJWT(existePersona.id);
+        const token = await generarJWT(existePersona.idPersona);
         res.json({
-            idPesona: existePersona.id,
+            idPesona: existePersona.idPersona,
             nombreCompleto:existePersona.nombreCompleto,
             correoElectronico: existePersona.correoElectronico,
             token,
@@ -74,7 +74,7 @@ const olvidePassword = async (req, res) => {
 
     const existePersona = await Persona.findOne({
         where: {
-            correoElectronico
+            correoElectronico:req.body.correoElectronico
         }}
     );
 
