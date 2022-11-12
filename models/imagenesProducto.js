@@ -3,7 +3,7 @@ const { DataTypes } = require('sequelize');
 
 
 const ImagenesProducto = db.define('imagenesProducto', {
-    idImagenesProducto: {
+    idImagenProducto: {
         type: DataTypes.INTEGER,
         primaryKey: true
     },

@@ -1,9 +1,9 @@
 const jwt = require('jsonwebtoken');
-const Persona = require("../models/persona");
+const { Persona } = require('../models/persona');
 const checkAuth = async (req, res, next) => {
 
     const token = req.header('token');
-
+   console.log(token);
     if (!token) {
         return res.status(401).json({
             msg: 'No hay token en la peticion'
@@ -11,18 +11,17 @@ const checkAuth = async (req, res, next) => {
     }
 
    try {
-        const { uid } = jwt.verify(token, process.env.JWT_SECRET);
+        const  {uid,tipo} = jwt.verify(token, process.env.JWT_SECRET);
+        const {dataValues} = await Persona.findByPk(uid);
+        
 
-        const usuario = await Persona.findById(uid).select("-password -token -confirmado")
-
-
-        if (!usuario) {
+        if (!dataValues) {
             return res.status(401).json({
                 msg: 'Token no valido- usuario no existe'
             })
         }
      
-        req.usuario=usuario;
+        req.usuario=dataValues;
 
         next();
     

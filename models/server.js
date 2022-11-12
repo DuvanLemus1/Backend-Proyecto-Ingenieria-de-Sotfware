@@ -1,6 +1,7 @@
 const express = require('express');
 const { db } = require('../config/db');
 const cors = require('cors');
+const fileUpload=require('express-fileupload');
 class Server {
     constructor() {
         this.app = express();
@@ -26,6 +27,13 @@ class Server {
 
         //Lectura ytt paraseo del body
         this.app.use(express.json());
+
+        //Fileupload - carga de archivos
+      /*   this.app.use(fileUpload({
+            useTempFiles : true,
+            tempFileDir : '/tmp/',
+            createParentPath : true
+        })); */
     }
 
 
@@ -33,6 +41,7 @@ class Server {
     route() {
         this.app.use('/personas', require('../routers/personaRouter'));
         this.app.use('/login', require('../routers/loginRouter'));
+        this.app.use('/producto',require('../routers/productoRouter'));
     }
 
     listen() {
