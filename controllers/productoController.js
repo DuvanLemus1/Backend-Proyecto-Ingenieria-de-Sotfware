@@ -59,23 +59,14 @@ const mostrarImagen = async (req, res) => {
 }
 
 const listadoProductos = async (req, res) => {
-   /*  const productos = await Producto.findAll();
-    const productosImg =productos.map(async(product) => {
-        const img =await  ImagenesProducto.findAll({
-            where: {
-                "idProducto": product.dataValues.idProducto
-            }
-        });
-        const { _previousDataValues, uniqno, ...data } = img
-        product.dataValues.imagenes = data;
-        console.log(product);
-    });
+  try {
+    const productos = await Producto.findAll({ include: ImagenesProducto });
+    res.json(productos);
+  } catch (error) {
+    res.status(400).json({ error: error});
+  }
 
-  Promise.all([productosImg]).then(res.json(productosImg)); */
-
-  const productos = await Producto.findAll({ include: ImagenesProducto });
-
-  res.json(productos);
+ 
 }
 
 module.exports = { guardarProducto, mostrarImagen, listadoProductos }
