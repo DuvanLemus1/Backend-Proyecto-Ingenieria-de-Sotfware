@@ -1,42 +1,42 @@
-const {db}=require('../config/db');
-const {DataTypes}=require('sequelize');
+const { db } = require('../config/db');
+const { DataTypes } = require('sequelize');
 
-const {ImagenesProducto}=require('../models/imagenesProducto');
+const { ImagenesProducto } = require('../models/imagenesProducto');
 
 
-const Producto =db.define('producto',{
-    idProducto:{
-        type:  DataTypes.INTEGER,
+const Producto = db.define('producto', {
+    idProducto: {
+        type: DataTypes.INTEGER,
         primaryKey: true
     },
-    nombre:{
-        type:DataTypes.STRING,
+    nombre: {
+        type: DataTypes.STRING,
     },
-    cantidad:{
-        type:DataTypes.INTEGER
+    cantidad: {
+        type: DataTypes.INTEGER
     },
-    precioVenta:{
-        type:DataTypes.INTEGER
+    precioVenta: {
+        type: DataTypes.INTEGER
     },
-    fecha:{
-        type:DataTypes.DATE
+    fecha: {
+        type: DataTypes.DATE
     },
-    disponibilidad:{
-        type:DataTypes.BOOLEAN
+    disponibilidad: {
+        type: DataTypes.BOOLEAN
     },
-    estadoProducto:{
-        type:DataTypes.STRING
+    estadoProducto: {
+        type: DataTypes.STRING
     },
-    categoria:{
-        type:DataTypes.STRING
+    categoria: {
+        type: DataTypes.STRING
     },
-    idPersona:{
-        type:DataTypes.INTEGER,
+    idPersona: {
+        type: DataTypes.INTEGER,
         foreignKey: true
     },
 
-},{
-    tableName:'producto'
+}, {
+    tableName: 'producto'
 });
 
 Producto.hasMany(ImagenesProducto, {
@@ -48,4 +48,4 @@ ImagenesProducto.belongsTo(Producto, {
     foreignKey: 'idProducto',
     targetId: 'idProducto'
 });
-module.exports = {Producto};
+module.exports = { Producto };
