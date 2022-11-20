@@ -27,9 +27,24 @@ const mostrarImagen = async (req, res) => {
 }
 
 const listadoProductos = async (req, res) => {
+  //leer query string 
+  const {pagina}=req.query;
+  const expresion=/^[0-9]$/
   try {
-    const productos = await Producto.findAll({ include: ImagenesProducto });
-    res.json(productos);
+     
+    if (!expresion.test(pagina)) {
+      return res.status(404).json({msg:'Revise que este mando un numero en la paginacion'})
+    }
+    limit=5;
+    const offset=((pagina*limit)-limit)
+
+    const [productos,total] = await Promise.all([
+      Producto.findAll({ limit,offset,include: ImagenesProducto })
+    ,Producto.count()
+    ])
+    
+    const paginas=Math.ceil(total/limit);
+    res.json({productos,paginaActual:pagina,totalPaginas:paginas});
   } catch (error) {
     res.status(400).json({ error: error});
   }
@@ -37,4 +52,21 @@ const listadoProductos = async (req, res) => {
  
 }
 
-module.exports = { guardarProducto, mostrarImagen, listadoProductos }
+
+const getProducto= async (req, res) => {
+   const  {id}=req.params; 
+  try {
+    const producto = await Producto.findByPk(id);
+
+    if (!producto) {
+     return  res.json({ msg:'No existe el producto'})
+    }
+
+    res.json(producto)
+
+   } catch (error) {
+    res.status(400).json({error});
+   }
+}
+
+module.exports = {  mostrarImagen, listadoProductos ,getProducto}
